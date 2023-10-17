@@ -6,6 +6,29 @@
   height: 100vh;
 }
 
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 5px;
+  background-color: #000; 
+  transform: translateX(-50%);
+  transition: width 1s ease-in-out;
+}
+
+h1:hover:after {
+  width: 100%;
+}
+
 #quote-box {
   width: 500px;
   margin: 0  auto;

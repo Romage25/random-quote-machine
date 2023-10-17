@@ -46,31 +46,41 @@ function App() {
       className="background"
       style={{ backgroundColor: randomColor, transition: transition }}
     >
-      <div id="quote-box">
-        <div className="quote-content" style={{ color: randomColor, transition: transition }}>
-          <h2 id="text">
-            <FaQuoteLeft size="30" style={{ marginRight: "10px" }} />{" "}
-            {quote.quote}{" "}
-            <FaQuoteRight size="30" style={{ marginLeft: "10px" }} />
-          </h2>
+      <div>
+        <h1>Random Quote Machine</h1>
+        <div id="quote-box">
+          <div
+            className="quote-content"
+            style={{ color: randomColor, transition: transition }}
+          >
+            <h2 id="text">
+              <FaQuoteLeft size="30" style={{ marginRight: "10px" }} />{" "}
+              {quote.quote}{" "}
+              <FaQuoteRight size="30" style={{ marginLeft: "10px" }} />
+            </h2>
 
-          <h4 id="author">- {quote.author}</h4>
-        </div>
-        <div className="buttons">
-          <a
-            href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text${quote.quote}`}
-            id="tweet-quote"
-            style={{ backgroundColor: randomColor, marginRight: "10px", transition: transition}}
-          >
-            <FaTwitter color="white" />
-          </a>
-          <button
-            id="new-quote"
-            onClick={changeQuote}
-            style={{ backgroundColor: randomColor, transition }}
-          >
-            Change Quote
-          </button>
+            <h4 id="author">- {quote.author}</h4>
+          </div>
+          <div className="buttons">
+            <a
+              href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text${quote.quote}`}
+              id="tweet-quote"
+              style={{
+                backgroundColor: randomColor,
+                marginRight: "10px",
+                transition: transition,
+              }}
+            >
+              <FaTwitter color="white" />
+            </a>
+            <button
+              id="new-quote"
+              onClick={changeQuote}
+              style={{ backgroundColor: randomColor, transition }}
+            >
+              Change Quote
+            </button>
+          </div>
         </div>
       </div>
     </div>
