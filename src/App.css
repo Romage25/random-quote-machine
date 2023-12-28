@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 }
 
 h1 {
@@ -69,6 +69,21 @@ button, a {
   font-size: 1em;
 }
 
+ul {
+  margin: 20px 10px;
+  font-size: 25px;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.link {
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+}
 @media (max-width: 768px) {
   h1 {
     font-size: 1.5rem;
