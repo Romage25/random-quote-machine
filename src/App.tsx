@@ -1,16 +1,13 @@
-import { useState } from "react";
-import quotes from "./assets/quotes.json";
+import { useState, useEffect } from "react";
 import { FaTwitter, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import "./App.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./lib/firebase";
 
 interface Quote {
   quote: string;
   author: string;
 }
-
-const getRandomQuote = (): Quote => {
-  return quotes[Math.floor(Math.random() * quotes.length)];
-};
 
 const getRandomColor = (): string => {
   const colors = [
@@ -31,13 +28,36 @@ const getRandomColor = (): string => {
 };
 
 function App() {
-  const [quote, setQuote] = useState<Quote>(getRandomQuote());
+  const [quote, setQuote] = useState<Quote>({ quote: "", author: "" });
   const [randomColor, setRandomColor] = useState<string>(getRandomColor());
+  const [quotes, setQuotes] = useState<Quote[]>([]);
+
+  const getRandomQuote = (quotes: Quote[]): Quote => {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  };
 
   const changeQuote = () => {
-    setQuote(getRandomQuote());
+    const newQuote = getRandomQuote(quotes);
+    setQuote(newQuote);
     setRandomColor(getRandomColor());
   };
+
+  useEffect(() => {
+    const fetchQuotes = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "quotes"));
+        const dbQuotes: Quote[] = querySnapshot.docs.map((doc) => doc.data() as Quote);
+        setQuotes(dbQuotes);
+
+        const randomQuote = getRandomQuote(dbQuotes);
+        setQuote(randomQuote);
+      } catch (error) {
+        console.error("Error fetching quotes:", error);
+      }
+    };
+
+    fetchQuotes();
+  }, []); // Empty dependency array ensures the effect runs once when the component mounts
 
   const transition = "all 1s ease-in-out";
 
