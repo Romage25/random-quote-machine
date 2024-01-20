@@ -76,7 +76,7 @@ function App() {
         <div id="quote-box">
           {isLoading ? (
             <div style={{ margin: "auto" }}>
-              <BeatLoader color="#36d7b7" size={25} />
+              <BeatLoader color={randomColor} size={25} />
             </div>
           ) : (
             <>
