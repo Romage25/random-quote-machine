@@ -3,6 +3,7 @@ import { FaTwitter, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import "./App.css";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./lib/firebase";
+import { BeatLoader } from "react-spinners";
 
 interface Quote {
   quote: string;
@@ -31,6 +32,7 @@ function App() {
   const [quote, setQuote] = useState<Quote>({ quote: "", author: "" });
   const [randomColor, setRandomColor] = useState<string>(getRandomColor());
   const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getRandomQuote = (quotes: Quote[]): Quote => {
     return quotes[Math.floor(Math.random() * quotes.length)];
@@ -46,9 +48,11 @@ function App() {
     const fetchQuotes = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "quotes"));
-        const dbQuotes: Quote[] = querySnapshot.docs.map((doc) => doc.data() as Quote);
+        const dbQuotes: Quote[] = querySnapshot.docs.map(
+          (doc) => doc.data() as Quote
+        );
         setQuotes(dbQuotes);
-
+        setIsLoading(false);
         const randomQuote = getRandomQuote(dbQuotes);
         setQuote(randomQuote);
       } catch (error) {
@@ -68,39 +72,48 @@ function App() {
     >
       <div>
         <h1>Random Quote Machine</h1>
-        <div id="quote-box">
-          <div
-            className="quote-content"
-            style={{ color: randomColor, transition: transition }}
-          >
-            <h2 id="text">
-              <FaQuoteLeft size="30" style={{ marginRight: "10px" }} />{" "}
-              {quote.quote}{" "}
-              <FaQuoteRight size="30" style={{ marginLeft: "10px" }} />
-            </h2>
 
-            <h4 id="author">- {quote.author}</h4>
-          </div>
-          <div className="buttons">
-            <a
-              href="#"
-              id="tweet-quote"
-              style={{
-                backgroundColor: randomColor,
-                marginRight: "10px",
-                transition: transition,
-              }}
-            >
-              <FaTwitter color="white" />
-            </a>
-            <button
-              id="new-quote"
-              onClick={changeQuote}
-              style={{ backgroundColor: randomColor, transition }}
-            >
-              Change Quote
-            </button>
-          </div>
+        <div id="quote-box">
+          {isLoading ? (
+            <div style={{ margin: "auto" }}>
+              <BeatLoader color="#36d7b7" size={25} />
+            </div>
+          ) : (
+            <>
+              <div
+                className="quote-content"
+                style={{ color: randomColor, transition: transition }}
+              >
+                <h2 id="text">
+                  <FaQuoteLeft size="30" style={{ marginRight: "10px" }} />{" "}
+                  {quote.quote}{" "}
+                  <FaQuoteRight size="30" style={{ marginLeft: "10px" }} />
+                </h2>
+
+                <h4 id="author">- {quote.author}</h4>
+              </div>
+              <div className="buttons">
+                <a
+                  href="#"
+                  id="tweet-quote"
+                  style={{
+                    backgroundColor: randomColor,
+                    marginRight: "10px",
+                    transition: transition,
+                  }}
+                >
+                  <FaTwitter color="white" />
+                </a>
+                <button
+                  id="new-quote"
+                  onClick={changeQuote}
+                  style={{ backgroundColor: randomColor, transition }}
+                >
+                  Change Quote
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
