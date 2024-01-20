@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { FaTwitter, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import "./App.css";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { BeatLoader } from "react-spinners";
+import { QuoteCard } from "./lib/components/QuoteCard";
 
 interface Quote {
   quote: string;
@@ -61,7 +61,7 @@ function App() {
     };
 
     fetchQuotes();
-  }, []); // Empty dependency array ensures the effect runs once when the component mounts
+  }, []);
 
   const transition = "all 1s ease-in-out";
 
@@ -79,40 +79,12 @@ function App() {
               <BeatLoader color={randomColor} size={25} />
             </div>
           ) : (
-            <>
-              <div
-                className="quote-content"
-                style={{ color: randomColor, transition: transition }}
-              >
-                <h2 id="text">
-                  <FaQuoteLeft size="30" style={{ marginRight: "10px" }} />{" "}
-                  {quote.quote}{" "}
-                  <FaQuoteRight size="30" style={{ marginLeft: "10px" }} />
-                </h2>
-
-                <h4 id="author">- {quote.author}</h4>
-              </div>
-              <div className="buttons">
-                <a
-                  href="#"
-                  id="tweet-quote"
-                  style={{
-                    backgroundColor: randomColor,
-                    marginRight: "10px",
-                    transition: transition,
-                  }}
-                >
-                  <FaTwitter color="white" />
-                </a>
-                <button
-                  id="new-quote"
-                  onClick={changeQuote}
-                  style={{ backgroundColor: randomColor, transition }}
-                >
-                  Change Quote
-                </button>
-              </div>
-            </>
+            <QuoteCard
+              randomColor={randomColor}
+              quote={quote}
+              transition={transition}
+              changeQuote={changeQuote}
+            />
           )}
         </div>
       </div>
