@@ -22,12 +22,12 @@ function Add() {
     }
 
     try {
-      const docRef = await addDoc(collection(db, "quotes"), {
+      await addDoc(collection(db, "quotes"), {
         quote: quote.trim(),
         author: author.trim(),
       });
 
-      // console.log("Document written with ID: ", docRef.id);
+      
 
       navigate("/");
     } catch (error) {
