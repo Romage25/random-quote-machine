@@ -15,6 +15,9 @@ function Add() {
 
     if (!quote.trim() || !author.trim()) {
       setError("Both quote and author fields are required");
+      setTimeout(() => {
+        setError("");
+      }, 1500);
       return;
     }
 
@@ -24,7 +27,7 @@ function Add() {
         author: author.trim(),
       });
 
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
 
       navigate("/");
     } catch (error) {
